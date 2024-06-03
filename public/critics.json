@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Rajeev Masand",
+    "address": "Mumbai, Maharashtra, India",
+    "email": "rajeev.masand@cnn.com",
+    "rating": 4.8,
+    "photo": "https://www.india.com/wp-content/uploads/2021/05/5cb0666e-7202-44d1-876c-253469a13384.jpg"
+  },
+  {
+    "name": "Anupama Chopra",
+    "address": "Mumbai, Maharashtra, India",
+    "email": "anupama@filmcompanion.in",
+    "rating": 4.7,
+    "photo": "https://goldenglobes.com/wp-content/uploads/2023/10/chopra_-anupama.jpg"
+  },
+  {
+    "name": "Taran Adarsh",
+    "address": "Mumbai, Maharashtra, India",
+    "email": "taran@bollywoodhungama.com",
+    "rating": 4.6,
+    "photo": "https://www.bollywoodhungama.com/wp-content/uploads/2023/12/taran.jpg"
+  },
+  {
+    "name": "Komal Nahta",
+    "address": "Mumbai, Maharashtra, India",
+    "email": "komal@filminformation.com",
+    "rating": 4.5,
+    "photo": "https://blackhattalent.com/wp-content/uploads/2024/04/Komal-Nahta-Moderators.png"
+  },
+  {
+    "name": "Mayank Shekhar",
+    "address": "Mumbai, Maharashtra, India",
+    "email": "mayank@thew14.com",
+    "rating": 4.4,
+    "photo": "https://assets-global.website-files.com/6113c2e2f67a66583f146c13/63383135edd4565083f3374f_Mayank%20Shekhar.jpeg"
+  },
+  {
+    "name": "Baradwaj Rangan",
+    "address": "Chennai, Tamil Nadu, India",
+    "email": "baradwaj@thehindu.co.in",
+    "rating": 4.9,
+    "photo": "https://th-i.thgim.com/public/migration_catalog/article11715226.ece/alternates/FREE_1200/Baradwaj%20Rangan"
+  }
+]
