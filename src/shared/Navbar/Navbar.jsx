@@ -1,6 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
+import useAuthContextHook from "../../hooks/useAuthContextHook";
 
 const Navbar = () => {
+  // user information from context
+  const { user, logOutUser } = useAuthContextHook();
   const navItems = (
     <>
       <li>
@@ -12,15 +15,19 @@ const Navbar = () => {
       <li>
         <NavLink to={"/faq"}> FAQ</NavLink>
       </li>
-      <li>
-        <NavLink to={"/about"}> Write </NavLink>
-      </li>
-      <li>
-        <NavLink to={"/about"}> Profile</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/about"}> Dashboard</NavLink>
-      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to={"/about"}> Write </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/profile"}> Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/about"}> Dashboard</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -59,7 +66,34 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 gap-2">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img alt={user?.displayName} src={user?.photoURL} />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box"
+              >
+                <li>
+                  <p>{user?.email}</p>
+                </li>
+                <li>
+                  <button onClick={() => logOutUser()}>Logout</button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/auth" className="btn btn-ghost">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </>

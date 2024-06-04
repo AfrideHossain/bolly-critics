@@ -3,7 +3,7 @@ const CriticCardSmall = () => {
   return (
     <>
       <div className="card lg:card-side bg-base-100 shadow-xl">
-        <figure className="w-96 h-full">
+        <figure className="w-full md:w-96 h-full">
           <img
             src="https://goldenglobes.com/wp-content/uploads/2023/10/chopra_-anupama.jpg"
             alt="Critic"
