@@ -18,13 +18,13 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to={"/about"}> Write </NavLink>
+            <NavLink to={"/dashboard/write"}> Write </NavLink>
           </li>
           <li>
-            <NavLink to={"/profile"}> Profile</NavLink>
+            <NavLink to={"/dashboard/profile"}> Profile</NavLink>
           </li>
           <li>
-            <NavLink to={"/about"}> Dashboard</NavLink>
+            <NavLink to={"/dashboard"}> Dashboard</NavLink>
           </li>
         </>
       )}

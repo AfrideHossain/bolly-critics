@@ -25,7 +25,10 @@ const Banner = () => {
           </div>
           {/* buttons */}
           <div className="mt-4">
-            <Link to={"/"} className="btn btn-lg btn-primary btn-wide rounded-full">
+            <Link
+              to={"/auth/signup"}
+              className="btn btn-lg btn-primary btn-wide rounded-full"
+            >
               Get started for free
             </Link>
           </div>

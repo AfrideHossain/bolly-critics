@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import GoogleLogin from "../components/Auth/GoogleLogin";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthContextHook from "../hooks/useAuthContextHook";
 
 const Register = () => {
@@ -13,11 +13,32 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
+
   const onSubmitHandler = (data) => {
     const { username, email, password } = data;
-      signUpWithEmailAndPass(email, password).then(result => {
-          console.log(result);
-    })
+    signUpWithEmailAndPass(email, password).then((result) => {
+      // console.log(result);
+      fetch(`${import.meta.env.VITE_BASEURL}/createuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: result.user.email,
+          username: username,
+          avatar: result.user?.photoURL || "",
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            navigate(from, { replace: true });
+          }
+        });
+    });
   };
   return (
     <>

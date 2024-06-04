@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import GoogleLogin from "../components/Auth/GoogleLogin";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthContextHook from "../hooks/useAuthContextHook";
 
 const Login = () => {
   const { signInWithEmailAndPass } = useAuthContextHook();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
   // useform
   const {
     register,
@@ -14,8 +18,8 @@ const Login = () => {
 
   const onSubmitHandler = (data) => {
     const { email, password } = data;
-    signInWithEmailAndPass(email, password).then((result) => {
-      console.log(result.user);
+    signInWithEmailAndPass(email, password).then(() => {
+      navigate(from, { replace: true });
     });
   };
   return (

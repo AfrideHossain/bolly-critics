@@ -5,6 +5,13 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
+import UpdateProfile from "../pages/UpdateProfile";
+import DashboardLayout from "../layouts/DashboardLayout";
+import WriteReview from "../pages/WriteReview";
+import UpdateReview from "../pages/UpdateReview";
+import Posts from "../pages/Posts";
+import ReadPost from "../pages/ReadPost";
+import SecureRoute from "./private/SecureRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "read",
+        element: <ReadPost />,
       },
     ],
   },
@@ -32,12 +43,32 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/profile",
-    element: <HomeLayout />,
+    path: "/dashboard",
+    element: (
+      <SecureRoute>
+        <DashboardLayout />
+      </SecureRoute>
+    ),
     children: [
       {
         path: "",
+        element: <Posts />,
+      },
+      {
+        path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "update",
+        element: <UpdateProfile />,
+      },
+      {
+        path: "write",
+        element: <WriteReview />,
+      },
+      {
+        path: "editreview/:id",
+        element: <UpdateReview />,
       },
     ],
   },

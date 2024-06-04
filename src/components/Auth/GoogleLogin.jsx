@@ -1,10 +1,27 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuthContextHook from "../../hooks/useAuthContextHook";
 
 const GoogleLogin = () => {
   const { signInWithGoogle } = useAuthContextHook();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
+
   const handleSocialLogin = () => {
     signInWithGoogle().then((result) => {
-      console.log(result.user);
+      fetch(`${import.meta.env.VITE_BASEURL}/createuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: result.user.email,
+          username: result.user.displayName,
+          avatar: result.user?.photoURL || "",
+        }),
+      });
+      navigate(from, { replace: true });
     });
   };
   return (

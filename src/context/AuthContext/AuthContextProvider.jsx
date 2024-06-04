@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 
 import auth from "../../firebase/firebase.config";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 // import useAxiosSecure from "../hooks/useAxiosSecure";
 // import useAxiosNoAuth from "../hooks/useAxiosNoAuth";
 
@@ -24,6 +25,9 @@ const AuthContextProvider = ({ children }) => {
   // set role state
   // const [userRole, setUserRole] = useState("");
   const [loading, setLoading] = useState(true);
+
+  // axios secure
+  const axiosSecure = useAxiosSecure();
 
   /****************************
    ** Auth related functions **
@@ -56,6 +60,25 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUserData) => {
       setUser(currentUserData);
+      if (currentUserData && currentUserData.email) {
+        axiosSecure
+          .post(
+            "/jwtSign",
+            {
+              email: currentUserData.email,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            localStorage.setItem("auth-token", res.data.token);
+          });
+      } else {
+        localStorage.removeItem("auth-token");
+      }
       setLoading(false);
     });
     return () => {
