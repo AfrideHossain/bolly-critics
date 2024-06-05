@@ -11,17 +11,28 @@ const WriteReview = () => {
 
   const axiosSecure = useAxiosSecure();
   const onSubmitHandler = (data) => {
-    axiosSecure.post("/post", data).then((data) => {
-      if (data.data.insertedId) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Review Posted",
-          showConfirmButton: false,
-          timer: 2000,
+    const formData = new FormData();
+    formData.append("image", data.poster[0]);
+    // post image
+    fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        data.poster = resData.data.display_url;
+        axiosSecure.post("/post", data).then((data) => {
+          if (data.data.insertedId) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Review Posted",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
         });
-      }
-    });
+      });
   };
   return (
     <>
@@ -36,7 +47,7 @@ const WriteReview = () => {
               <input
                 type="file"
                 className="file-input file-input-bordered w-full"
-                {...register("poster")}
+                {...register("poster", { required: true })}
               />
             </div>
             <div className="form-control">
@@ -47,7 +58,7 @@ const WriteReview = () => {
                 type="text"
                 placeholder="headline"
                 className="input input-bordered w-full"
-                {...register("headline")}
+                {...register("headline", { required: true })}
               />
             </div>
             <div className="form-control">
@@ -58,7 +69,7 @@ const WriteReview = () => {
                 type="text"
                 placeholder="Review"
                 className="textarea h-96 input-bordered w-full"
-                {...register("review")}
+                {...register("review", { required: true })}
               />
             </div>
             <button type="submit" className="btn btn-primary w-full">

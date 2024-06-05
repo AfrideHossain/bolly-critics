@@ -31,11 +31,8 @@ const SmallPostCard = ({ post }) => {
   return (
     <>
       <div className="card card-compact max-w-md bg-base-100 shadow-xl">
-        <figure>
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
-          />
+        <figure className="max-h-72">
+          <img src={post?.poster} alt={post?.headline} />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{post?.headline}</h2>
@@ -47,7 +44,9 @@ const SmallPostCard = ({ post }) => {
             <HiOutlineStar className="w-6 h-6" /> <p>{post?.star || 0}</p>
           </div>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Read</button>
+            <Link to={`/read/${post?._id}`} className="btn btn-primary">
+              Read
+            </Link>
             <Link to={`editreview/${post?._id}`} className="btn btn-info">
               Edit
             </Link>

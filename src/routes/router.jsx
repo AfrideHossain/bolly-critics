@@ -12,6 +12,8 @@ import UpdateReview from "../pages/UpdateReview";
 import Posts from "../pages/Posts";
 import ReadPost from "../pages/ReadPost";
 import SecureRoute from "./private/SecureRoute";
+import Faq from "../pages/Faq";
+import About from "../pages/About";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +25,18 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "read",
+        path: "read/:id",
         element: <ReadPost />,
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_BASEURL}/post/${params.id}`),
+      },
+      {
+        path: "faq",
+        element: <Faq />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
     ],
   },

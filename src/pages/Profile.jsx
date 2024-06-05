@@ -1,21 +1,19 @@
-import { HiOutlineStar } from "react-icons/hi2";
+import { HiOutlineStar, HiPencilSquare } from "react-icons/hi2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const Profile = () => {
-  //const user = {
-  //   username: "AwesomeDev",
-  //   avatar:
-  //     "https://img.freepik.com/premium-photo/confident-businessman-portrait_220507-11268.jpg",
-  //   bio: "Passionate software developer with a focus on building user-friendly and innovative applications. Always learning and excited about the future of tech!",
-  //   location: "Silicon Valley, CA",
-  //   stats: {
-  //     stars: 0,
-  //   },
-  // };
   const [user, setUser] = useState({});
   const axiosSecure = useAxiosSecure();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     axiosSecure.get("/user").then((data) => {
@@ -28,16 +26,55 @@ const Profile = () => {
     console.log("Star button clicked!");
   };
 
+  const onSubmitHandler = (data) => {
+    const formData = new FormData();
+    formData.append("image", data.poster[0]);
+    // post image
+    fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        data.avatar = resData.data.display_url;
+        axiosSecure
+          .put(`/user/${user._id}`, data, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((data) => {
+            if (data.data.success) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Picture Updated",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            }
+          });
+      });
+  };
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full">
           <div className="flex flex-col items-center">
-            <img
-              className="w-24 h-24 rounded-full shadow-lg"
-              src={user?.avatar || "https://via.placeholder.com/150"}
-              alt="Profile"
-            />
+            <div className="relative">
+              <img
+                className="w-24 h-24 rounded-full shadow-lg"
+                src={user?.avatar || "https://via.placeholder.com/150"}
+                alt="Profile"
+              />
+              <button
+                className="absolute -right-3 bottom-0 btn btn-sm  rounded-full"
+                onClick={() => document.getElementById("updateDp").showModal()}
+              >
+                <HiPencilSquare className="w-5 h-5 rounded-full" />
+              </button>
+            </div>
             <h2 className="mt-4 text-2xl font-semibold">{user?.username}</h2>
             <p className="mt-2 text-gray-600">{user?.email}</p>
             <div className="mt-4 space-x-2">
@@ -65,6 +102,34 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* modal */}
+      {/* You can open the modal using document.getElementById('ID').showModal() method */}
+
+      <dialog id="updateDp" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+
+          <h3 className="font-bold text-lg mb-6">Change Picture</h3>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
+            <div className="form-control">
+              <input
+                type="file"
+                className="file-input file-input-bordered w-full"
+                {...register("poster", { required: true })}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary float-right mt-4">
+              Save
+            </button>
+          </form>
+        </div>
+      </dialog>
     </>
   );
 };

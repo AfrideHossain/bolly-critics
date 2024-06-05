@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 const UpdateReview = () => {
   const { id } = useParams();
+  const [poster, setPoster] = useState("");
   const {
     register,
     handleSubmit,
@@ -12,6 +14,18 @@ const UpdateReview = () => {
   } = useForm();
   const axiosSecure = useAxiosSecure();
   const onSubmitHandler = (data) => {
+    // const formData = new FormData();
+    // formData.append("image", data.poster[0]);
+    // // post image
+    // fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB}`, {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((res) => res.json())
+    //   .then((resData) => {
+    //     data.poster = resData.data.display_url;
+
+    //   });
     axiosSecure.put(`/post/${id}`, data).then((data) => {
       if (data.data.modifiedCount > 0) {
         Swal.fire({
@@ -30,7 +44,7 @@ const UpdateReview = () => {
         <div className="w-full md:max-w-2xl md:p-8 p-4 m-4 space-y-3 rounded-xl shadow-lg bg-white">
           <h1 className="text-2xl font-bold text-center">Update</h1>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmitHandler)}>
-            <div className="form-control">
+            {/* <div className="form-control">
               <label className="label">
                 <span className="label-text">Poster</span>
               </label>
@@ -39,7 +53,7 @@ const UpdateReview = () => {
                 className="file-input file-input-bordered w-full"
                 {...register("poster")}
               />
-            </div>
+            </div> */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Headline</span>

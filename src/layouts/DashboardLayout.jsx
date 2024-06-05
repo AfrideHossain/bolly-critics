@@ -1,7 +1,9 @@
 import { HiBars3BottomLeft } from "react-icons/hi2";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import useAuthContextHook from "../hooks/useAuthContextHook";
 
 const DashboardLayout = () => {
+  const { logOutUser } = useAuthContextHook();
   const sideBarContent = (
     <>
       <li>
@@ -41,6 +43,17 @@ const DashboardLayout = () => {
             {/* Sidebar content here */}
             <li className="text-xl font-semibold mb-4">Bolly Critics</li>
             {sideBarContent}
+
+            <li className="mt-auto">
+              <div className="join join-vertical">
+                <Link className="btn btn-ghost" to={"/"}>
+                  Home
+                </Link>
+                <button className="btn btn-ghost" onClick={() => logOutUser()}>
+                  Logout
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
